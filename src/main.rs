@@ -1,8 +1,6 @@
-
 fn main() {
-    let vec = vec!(1,2,3);
-}
 
+}
 
 struct BoundedStack {
     size: usize,
@@ -10,8 +8,7 @@ struct BoundedStack {
     elements: Vec<usize>,
 }
 
-struct ZeroCapacityStack {
-}
+struct ZeroCapacityStack {}
 
 trait Stack {
     fn is_empty(&self) -> bool;
@@ -29,7 +26,7 @@ impl Stack for BoundedStack {
     fn push(&mut self, element: usize) {
         if self.size == self.capacity {
             panic!("Capacity overflow");
-        }         
+        }
         self.elements.push(element);
         self.size += 1;
     }
@@ -42,7 +39,7 @@ impl Stack for BoundedStack {
     }
     fn top(&self) -> usize {
         if self.is_empty() {
-            panic!("Empty"); 
+            panic!("Empty");
         }
         self.elements[self.size - 1]
     }
@@ -50,9 +47,9 @@ impl Stack for BoundedStack {
         self.size
     }
     fn find(&self, element: usize) -> Option<usize> {
-        for i in (0..=(self.size-1)).rev() {
+        for i in (0..=(self.size - 1)).rev() {
             if self.elements[i] == element {
-                return Some(self.size-1-i);
+                return Some(self.size - 1 - i);
             }
         }
         None
@@ -70,7 +67,7 @@ impl Stack for ZeroCapacityStack {
         panic!("Capacity underflow");
     }
     fn top(&self) -> usize {
-        panic!("Empty"); 
+        panic!("Empty");
     }
     fn push(&mut self, _: usize) {
         panic!("Capacity overflow");
@@ -83,14 +80,15 @@ impl Stack for ZeroCapacityStack {
 impl BoundedStack {
     fn new(capacity: usize) -> Box<dyn Stack> {
         if capacity == 0 {
-            return Box::new(
-                ZeroCapacityStack {}
-            );
+            return Box::new(ZeroCapacityStack {});
         }
-        Box::new(BoundedStack {size: 0, capacity, elements: Vec::with_capacity(capacity) })
+        Box::new(BoundedStack {
+            size: 0,
+            capacity,
+            elements: Vec::with_capacity(capacity),
+        })
     }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -100,7 +98,6 @@ mod tests {
     struct TestContext {
         stack: Box<dyn Stack>,
     }
-
     impl TestContext {
         fn setup() -> TestContext {
             TestContext {
@@ -176,7 +173,6 @@ mod tests {
         let mut stack = TestContext::setup().stack;
         stack.push(1);
         assert_eq!(stack.top(), 1);
-
     }
     #[test]
     #[should_panic]
@@ -187,7 +183,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn with_zero_capacity_stack_any_top_throws_empty() {
-        let mut stack = BoundedStack::new(0);
+        let stack = BoundedStack::new(0);
         stack.top();
     }
     #[test]
