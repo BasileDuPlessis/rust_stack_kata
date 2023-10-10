@@ -1,8 +1,6 @@
+
 fn main() {
-    let mut stack = BoundedStack::new(2);
-    stack.push(1);
-    stack.push(1);
-    stack.push(1);
+    let vec = vec!(1,2,3);
 }
 
 
@@ -74,10 +72,10 @@ impl Stack for ZeroCapacityStack {
     fn top(&self) -> usize {
         panic!("Empty"); 
     }
-    fn push(&mut self, element: usize) {
+    fn push(&mut self, _: usize) {
         panic!("Capacity overflow");
     }
-    fn find(&self, element: usize) -> Option<usize> {
+    fn find(&self, _: usize) -> Option<usize> {
         None
     }
 }
